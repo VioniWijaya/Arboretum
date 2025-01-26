@@ -1,0 +1,46 @@
+<%- include('header')%>
+    <!-- Main Content -->
+    <main class="container mx-auto mt-6 px-6">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex justify-between items-center">
+                <div>
+                <h2 class="text-xl font-bold">Daftar Tanaman</h2>
+                <h3 class="text-gray-400 font-bold">Total Tanaman : <%= totalTanaman %> buah</h3>
+                </div>
+                <button class="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    <span>Unduh Semua QRCode</span>
+                </button>
+            </div>
+
+            <table class="w-full mt-4">
+                <thead>
+                    <tr class="text-left text-gray-500 border-b">
+                        <th class="py-2">Nama Tanaman</th>
+                        <th class="py-2">Lokasi</th>
+                        <th class="py-2">Deskripsi</th>
+                        <th class="py-2">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% tanaman.forEach(function(item) { %>
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="py-4 flex items-center space-x-4">
+                            <img src="<%= item.foto || 'https://via.placeholder.com/40' %>" alt="Avatar" class="rounded-full">
+                            <div>
+                                <p class="font-bold"><%= item.nama %></p>
+                            </div>
+                        </td>
+                        <td class="py-4"><%= item.lokasi %></td>
+                        <td class="py-4"><%= item.deskripsi %></td>
+                        <td class="py-4">
+                            <button class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600">Unduh QRCode</button>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </main>
