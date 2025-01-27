@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<%- include('header') %>
+<body class="min-h-screen flex flex-col bg-gray-100">
+  <main class="flex-grow flex justify-center items-center p-6">
+  <div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6">
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-4">Detail Tanaman</h1>
+    <div class="space-y-4">
+      <div>
+        <strong>Nama:</strong> <%= tanaman.nama %>
+      </div>
+      <div>
+        <strong>Lokasi:</strong> <%= tanaman.lokasi %>
+      </div>
+      <div>
+        <strong>Deskripsi:</strong> <%= tanaman.deskripsi %>
+      </div>
+      <% if (tanaman.foto) { %>
+        <div>
+          <strong>Foto:</strong>
+          <img src="<%= tanaman.foto %>" alt="<%= tanaman.nama %>" class="w-40 h-40 object-cover mt-2">
+        </div>
+      <% } %>
+      <% if (tanaman.qrcode) { %>
+        <div>
+          <strong>QR Code:</strong>
+          <img src="<%= tanaman.qrcode %>" alt="QR Code" class="w-40 h-40 object-cover mt-2">
+        </div>
+      <% } %>
+    </div>
+    <a href="/" class="block mt-6 text-center text-green-700 hover:underline">Kembali ke Daftar</a>
+  </div>
+  </main>
+</body>
+</html>
