@@ -79,12 +79,22 @@ class TanamanController {
   static async getAllTanaman(req, res) {
     try {
         // Set limit per halaman
-        const limit = 10; // Jumlah item per halaman
+        const limit = 10;
         const page = parseInt(req.query.page) || 1;
         const offset = (page - 1) * limit;
+        const search = req.query.search || '';
+
+        // Buat kondisi pencarian
+        const where = {};
+        if (search) {
+            where.nama = {
+                [Op.like]: `%${search}%`
+            };
+        }
 
         // Ambil total count dan data yang sudah dipaginasi
         const { count, rows } = await TanamanModel.findAndCountAll({
+            where,
             limit: limit,
             offset: offset,
             order: [['id', 'ASC']]
@@ -106,7 +116,8 @@ class TanamanController {
             tanaman: tanamanDenganNomor,
             totalTanaman: count,
             currentPage: page,
-            totalPages: totalPages
+            totalPages: totalPages,
+            search: search // Kirim nilai search ke view
         });
     } catch (error) {
         console.error('Error fetching tanaman:', error);
