@@ -3,8 +3,7 @@
 <%- include('header') %>
 <body class="min-h-screen flex flex-col bg-gray-100">
   <main class="flex-grow flex justify-center items-center p-6">
-    <!-- Form Card -->
-    <div class="bg-white shadow-md w-[500px] p-6 rounded-lg">
+    <div class="bg-white shadow-md w-[600px] p-6 rounded-lg">
       <h2 class="text-2xl font-bold mb-4 text-center text-gray-800">Tambah Tanaman</h2>
       <form id="tanamanForm" class="space-y-4" enctype="multipart/form-data">
         <div>
@@ -17,7 +16,12 @@
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Deskripsi</label>
-          <textarea name="deskripsi" class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700" required></textarea>
+          <textarea 
+            name="deskripsi" 
+            class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700" 
+            rows="6"
+            style="min-height: 150px;"
+            required></textarea>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Foto</label>
@@ -35,9 +39,9 @@
     <div class="bg-white shadow-lg w-[400px] p-6 rounded-lg">
       <h3 class="font-bold text-lg text-center text-gray-800">Tanaman Berhasil Ditambahkan</h3>
       <img id="qrcodeImage" src="" alt="QR Code" class="my-4 mx-auto w-40 h-40">
-      <a id="downloadQrCode" href="#" download class="block bg-green-500 text-white font-bold py-2 px-4 text-center rounded hover:bg-green-600">
+      <button id="downloadQrCode" class="block w-full bg-green-500 text-white font-bold py-2 px-4 text-center rounded hover:bg-green-600">
         Unduh QRCode
-      </a>
+      </button>
       <div class="flex justify-center mt-4">
         <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" onclick="closeModal()">Tutup</button>
       </div>
@@ -64,7 +68,25 @@
         const result = await response.json();
         if (result.success) {
           qrcodeImage.src = result.qrcode;
-          downloadQrCode.href = result.qrcode;
+          
+          // Set up download handler
+          downloadQrCode.addEventListener('click', async () => {
+            try {
+              const response = await fetch(result.qrcode);
+              const blob = await response.blob();
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `${result.nama}.png`; // Gunakan nama tanaman sebagai nama file
+              document.body.appendChild(a);
+              a.click();
+              window.URL.revokeObjectURL(url);
+              a.remove();
+            } catch (error) {
+              console.error('Download error:', error);
+              alert('Gagal mengunduh QR Code');
+            }
+          });
           
           modal.classList.remove('hidden');
           modal.classList.add('flex');
@@ -80,6 +102,7 @@
     function closeModal() {
       modal.classList.remove('flex');
       modal.classList.add('hidden');
+      window.location.href = '/add';
     }
   </script>
 </body>

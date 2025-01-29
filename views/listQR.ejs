@@ -3,13 +3,14 @@
 <main class="container mx-auto mt-6 px-6 ">
     <div class="bg-white rounded-lg shadow-lg p-6">
         <div class="flex justify-between items-center">
+            
             <div>
             <h2 class="text-xl font-bold">Daftar Tanaman</h2>
             <h3 class="text-gray-400 font-bold">Total Tanaman : <%= totalTanaman %> jenis</h3>
             </div>
-            <button class="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+            <button onclick="downloadAllQRCodes()" class="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
                 <span>Unduh Semua QRCode</span>
             </button>
@@ -38,13 +39,19 @@
                     <td class="py-4"><%= item.lokasi %></td>
                     <td class="py-4"><%= item.deskripsi.length > 50 ? item.deskripsi.substring(0, 50) + '...' : item.deskripsi %></td>
                     <td class="py-4">
-                        <button class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600">Unduh QRCode</button>
+                        <button onclick="downloadQRCode('<%= item.id %>', '<%= item.nama %>')" class="flex items-center space-x-2 bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            <span>Unduh QRCode</span>
+                        </button>
                     </td>
                 </tr>
                 <% }); %>
             </tbody>
         </table>
 
+        <!-- Pagination section remains the same -->
         <div class="flex justify-end items-end space-x-4 mt-6">
             <% if (currentPage > 1) { %>
                 <a href="?page=<%= currentPage - 1 %>" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
@@ -66,3 +73,43 @@
         </div>
     </div>
 </main>
+
+<script>
+async function downloadQRCode(id, nama) {
+    try {
+        const response = await fetch(`/qrcodes/${id}.png`);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${nama.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_qr.png`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
+    } catch (error) {
+        console.error('Download error:', error);
+        alert('Gagal mengunduh QR Code');
+    }
+}
+
+async function downloadAllQRCodes() {
+    try {
+        const response = await fetch('/download-all-qrcodes');
+        if (!response.ok) throw new Error('Download failed');
+        
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'semua_qrcode.zip';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
+    } catch (error) {
+        console.error('Download error:', error);
+        alert('Gagal mengunduh QR Codes');
+    }
+}
+</script>

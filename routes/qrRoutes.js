@@ -7,19 +7,19 @@ const upload = require('../middlewares/upload');
 router.get('/add', (req,res) => {
   res.render('addQR')
 });
-// router.post('/submit', upload.single('foto'), tanamanController.submitTanaman);
+
 router.get('/', tanamanController.getAllTanaman);
 
 router.get('/kelola', tanamanController.getAllTanaman);
-// router.get('/tanaman/hapus/:id', tanamanController.deleteTanaman);
-// Rute untuk menambah tanaman dan membuat QR code
+
 router.post('/submit', upload.single('foto'), tanamanController.createTanaman);
 
 // Rute untuk menampilkan halaman detail tanaman
 router.get('/detail/:id', tanamanController.getTanamanDetail);
-router.post('/tanaman/edit/:id', tanamanController.updateTanaman);
-router.delete('/tanaman/hapus/:id', tanamanController.deleteTanaman);
-// router.get('/detail', tanamanController.getEachTanaman);
+router.post('/edit/:id', upload.single('foto'), tanamanController.updateTanaman);
+router.delete('/hapus/:id', tanamanController.deleteTanaman);
+router.get('/download-all-qrcodes', tanamanController.downloadAllQRCodes);
+
 router.use((req, res, next) => {
   res.locals.messages = {
       success: req.flash('success'),
