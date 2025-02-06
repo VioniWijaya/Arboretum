@@ -228,34 +228,32 @@ static async deleteTanaman(req, res) {
 
 static async downloadAllQRCodes(req, res) {
     try {
-        const archive = archiver('zip', {
-            zlib: { level: 9 } // Kompresi maksimum
-        });
-        
-        // Set header untuk download
-        res.attachment('semua_qrcode.zip');
-        archive.pipe(res);
-        
-        // Ambil semua data tanaman
-        const tanaman = await TanamanModel.findAll();
-        
-        // Tambahkan semua file QR code ke dalam zip
-        for (const item of tanaman) {
-            const qrPath = path.join(__dirname, '../public', item.qrcode);
-            if (fs.existsSync(qrPath)) {
-                archive.file(qrPath, { 
-                    name: `${item.nama.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_qr.png`
-                });
+        const AdmZip = require('adm-zip');
+        const zip = new AdmZip();
+        const qrCodeDir = path.join(__dirname, '../public/qrcodes');
+
+        // Get all tanaman records
+        const allTanaman = await TanamanModel.findAll();
+
+        // Add each QR code to the ZIP file
+        for (const tanaman of allTanaman) {
+            const qrCodePath = path.join(qrCodeDir, `${tanaman.id}.png`);
+            if (fs.existsSync(qrCodePath)) {
+                const safeFileName = `${tanaman.nama.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_qr.png`;
+                zip.addLocalFile(qrCodePath, '', safeFileName);
             }
         }
+
+        // Set response headers
+        res.set('Content-Type', 'application/zip');
+        res.set('Content-Disposition', `attachment; filename=semua_qrcode.zip`);
         
-        await archive.finalize();
+        // Send the zip file
+        res.send(zip.toBuffer());
+
     } catch (error) {
-        console.error('Error creating zip:', error);
-        res.status(500).json({ 
-            success: false, 
-            message: 'Gagal mengunduh QR Codes' 
-        });
+        console.error('Error creating ZIP:', error);
+        res.status(500).json({ success: false, message: 'Gagal mengunduh QR Codes' });
     }
 }
 }
