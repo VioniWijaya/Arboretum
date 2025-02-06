@@ -23,26 +23,50 @@ class TanamanController {
             // URL halaman detail
             const detailUrl = `${req.protocol}://${req.get('host')}/detail/${newTanaman.id}`;
     
-            // Buat canvas untuk menggabungkan teks dan QR code
-            const canvas = createCanvas(400, 400);
+            // Buat QR Code dengan opsi untuk logo
+            const qrCodeBuffer = await QRCode.toBuffer(detailUrl, {
+                errorCorrectionLevel: 'H',
+                margin: 2,
+                width: 400,
+                color: {
+                    dark: '#000000',
+                    light: '#ffffff'
+                }
+            });
+    
+            // Buat canvas yang lebih tinggi untuk mengakomodasi nama
+            const canvasWidth = 400;
+            const canvasHeight = 480; // Tinggi ditambah untuk ruang nama
+            const canvas = createCanvas(canvasWidth, canvasHeight);
             const ctx = canvas.getContext('2d');
     
-            // Set background putih
+            // Set background putih untuk seluruh canvas
             ctx.fillStyle = 'white';
-            ctx.fillRect(0, 0, 400, 400);
+            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     
-            // Tambahkan nama tanaman
+            // Tambahkan nama tanaman di atas
             ctx.fillStyle = 'black';
             ctx.font = 'bold 24px sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText(nama, 200, 40);
+            ctx.fillText(nama, canvasWidth / 2, 60); // Posisi teks di atas
     
-            // Generate dan gambar QR code
-            const qrCodeImage = await QRCode.toBuffer(detailUrl);
-            const qrImage = await loadImage(qrCodeImage);
-            ctx.drawImage(qrImage, 50, 80, 300, 300);
+            // Load dan gambar QR code
+            const qrImage = await loadImage(qrCodeBuffer);
+            ctx.drawImage(qrImage, 0, 80, canvasWidth, canvasWidth); // Mulai gambar QR dari y=80
     
-            // Simpan gambar gabungan
+            // Load dan gambar logo
+            const logoPath = path.join(__dirname, '../public/sumbar.png');
+            const logoImage = await loadImage(logoPath);
+            
+            // Hitung ukuran dan posisi logo (30% dari ukuran QR)
+            const logoSize = canvasWidth * 0.3;
+            const logoX = (canvasWidth - logoSize) / 2;
+            const logoY = ((canvasWidth - logoSize) / 2) + 80; // Sesuaikan dengan posisi QR
+            
+            // Gambar logo
+            ctx.drawImage(logoImage, logoX, logoY, logoSize, logoSize);
+    
+            // Simpan hasil akhir
             const qrCodePath = path.join(qrCodeDir, `${newTanaman.id}.png`);
             const buffer = canvas.toBuffer('image/png');
             fs.writeFileSync(qrCodePath, buffer);
@@ -54,14 +78,13 @@ class TanamanController {
             res.json({ 
                 success: true, 
                 qrcode: newTanaman.qrcode,
-                nama: nama.replace(/[^a-z0-9]/gi, '_').toLowerCase() // Nama file yang aman
+                nama: nama.replace(/[^a-z0-9]/gi, '_').toLowerCase()
             });
         } catch (error) {
             console.error(error);
             res.status(500).json({ success: false, message: 'Terjadi kesalahan.' });
         }
     }
-
   static async getTanamanDetail(req, res) {
     try {
       const tanaman = await TanamanModel.findByPk(req.params.id);
