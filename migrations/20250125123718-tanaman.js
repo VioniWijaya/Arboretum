@@ -10,11 +10,11 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       nama: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       lokasi: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       deskripsi: {
@@ -22,11 +22,11 @@ module.exports = {
         allowNull: false,
       },
       foto: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING,
         allowNull: true,
       },
       qrcode: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING,
         allowNull: true,
       },
       createdAt: {
