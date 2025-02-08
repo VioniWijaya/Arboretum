@@ -1,4 +1,5 @@
-require('dotenv').config()
+require('dotenv').config();
+
 module.exports = {
   "development": {
     "username": process.env.DB_USERNAME,
@@ -15,17 +16,13 @@ module.exports = {
     "dialect": process.env.DB_CONNECTION
   },
   "production": {
-  "username": process.env.DB_USERNAME,
-  "password": process.env.DB_PASSWORD,
-  "database": process.env.DB_NAME,
-  "host": process.env.DB_HOST,
-  "dialect": process.env.DB_CONNECTION,
-  "use_env_variable": "DATABASE_URL",  // Tambahkan ini
-  "dialectOptions": {
-    "ssl": {
-      "require": true,
-      "rejectUnauthorized": false
+    "use_env_variable": "MYSQL_URL", // Menggunakan MYSQL_URL dari Railway
+    "dialect": "mysql",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
     }
   }
- }
-}
+};
