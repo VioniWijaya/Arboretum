@@ -6,14 +6,14 @@ module.exports = (sequelize) => {
   Tanaman.init(
     {
       nama: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(255),
         allowNull: false,
         validate: {
           notEmpty: true,
         },
       },
       lokasi: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(255),
         allowNull: false,
         validate: {
           notEmpty: true,
@@ -27,11 +27,11 @@ module.exports = (sequelize) => {
         },
       },
       foto: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(255),
         allowNull: true,
       },
       qrcode: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(255),
         allowNull: true,
       },
     },
