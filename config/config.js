@@ -16,8 +16,8 @@ module.exports = {
     "dialect": process.env.DB_CONNECTION
   },
   "production": {
-    "use_env_variable": "MYSQL_URL", // Menggunakan MYSQL_URL dari Railway
-    "dialect": "mysql",
+    "use_env_variable": process.env.MYSQL_URL, // Menggunakan MYSQL_URL dari Railway
+    "dialect": mysql,
     "dialectOptions": {
       "ssl": {
         "require": true,
