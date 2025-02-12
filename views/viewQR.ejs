@@ -1,35 +1,44 @@
 <!DOCTYPE html>
 <html lang="id">
-<%- include('headerView') %>
-<body class="min-h-screen  flex-col bg-gray-100">
-  <main class="flex-grow  justify-center items-center p-6">
-  <div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6">
-    <h1 class="text-2xl font-bold text-center text-gray-800 mb-4">Detail Tanaman</h1>
-    <div class="space-y-4">
-      <div>
-        <strong>Nama:</strong> <%= tanaman.nama %>
-      </div>
-      <div>
-        <strong>Lokasi:</strong> <%= tanaman.lokasi %>
-      </div>
-      <div>
-        <strong>Deskripsi:</strong> <%= tanaman.deskripsi %>
-      </div>
+  <%- include('headerView') %>
+  <body class="min-h-screen  flex-col bg-gray-100">
+    <main class="flex-grow  justify-center items-center p-6">
+      <div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6">
+        <h1 class="text-2xl font-bold text-center text-gray-800 mb-4">Detail Tanaman</h1>
+        <div class="space-y-4">
       <% if (tanaman.foto) { %>
-        <div>
-          <strong>Foto:</strong>
-          <img src="<%= tanaman.foto %>" alt="<%= tanaman.nama %>" class="w-40 h-40 object-cover mt-2">
+        <div class="flex justify-center items-center">
+          <ul>
+          <img src="<%= tanaman.foto %>" alt="<%= tanaman.nama %>" class="w-40 h-40 object-cover mt-2 flex justify-center items-center">
+          <p class="opacity-50 italic flex justify-center">Foto Tanaman</p>
+        </ul>
         </div>
       <% } %>
-      <% if (tanaman.qrcode) { %>
-        <div>
-          <strong>QR Code:</strong>
-          <img src="<%= tanaman.qrcode %>" alt="QR Code" class="w-40 h-40 object-cover mt-2">
-        </div>
-      <% } %>
+      <div>
+        <h3 class="font-bold" class="font-bold">Nama</h3 > 
+        <p><%= tanaman.nama %></p>
+      </div>
+      <div>
+        <h3 class="font-bold">Nama Lokal</h3> 
+        <p><%= tanaman.nama_lokal %></p>
+      </div>
+      <div>
+        <h3 class="font-bold">Nama Latin</h3> 
+        <p class="italic"><%= tanaman.nama_latin %></p>
+      </div>
+      <div>
+        <h3 class="font-bold">Famili</h3> 
+        <p><%= tanaman.famili %></p>
+      </div>
+      <div>
+        <h3 class="font-bold">Kegunaan</h3> 
+        <p><%= tanaman.kegunaan %></p>
+      </div>
     </div>
     <!-- <a href="/" class="block mt-6 text-center text-green-700 hover:underline">Kembali ke Daftar</a> -->
   </div>
   </main>
+<%- include('footer')%>
+
 </body>
 </html>

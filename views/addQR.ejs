@@ -11,13 +11,21 @@
           <input type="text" name="nama" class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700" required>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700">Lokasi</label>
-          <input type="text" name="lokasi" class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700" required>
+          <label class="block text-sm font-medium text-gray-700">Nama Latin</label>
+          <input type="text" name="nama_latin" class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700" required>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700">Deskripsi</label>
+          <label class="block text-sm font-medium text-gray-700">Nama Lokal</label>
+          <input type="text" name="nama_lokal" class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Famili</label>
+          <input type="text" name="famili" class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Kegunaan</label>
           <textarea 
-            name="deskripsi" 
+            name="kegunaan" 
             class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700" 
             rows="6"
             style="min-height: 150px;"
@@ -47,6 +55,7 @@
       </div>
     </div>
   </div>
+<%- include('footer')%>
 
   <script>
     const form = document.getElementById('tanamanForm');

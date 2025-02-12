@@ -14,11 +14,11 @@ class TanamanController {
                 fs.mkdirSync(qrCodeDir, { recursive: true });
             }
     
-            const { nama, lokasi, deskripsi } = req.body;
+            const { nama, nama_latin, nama_lokal, famili, kegunaan } = req.body;
             const foto = req.file ? `/uploads/${req.file.filename}` : null;
     
             // Simpan data tanaman ke database
-            const newTanaman = await TanamanModel.create({ nama, lokasi, deskripsi, foto });
+            const newTanaman = await TanamanModel.create({ nama, nama_latin, nama_lokal, famili, kegunaan, foto });
     
             // URL halaman detail
             const detailUrl = `${req.protocol}://${req.get('host')}/detail/${newTanaman.id}`;
@@ -168,7 +168,7 @@ static async editForm(req, res) {
 static async updateTanaman(req, res) {
     try {
         const id = req.params.id;
-        const { nama, lokasi, deskripsi } = req.body;
+        const { nama, nama_latin, nama_lokal, famili, kegunaan } = req.body;
         
         const tanaman = await TanamanModel.findByPk(id);
         if (!tanaman) {
@@ -181,8 +181,10 @@ static async updateTanaman(req, res) {
         // Siapkan data untuk update
         let updateData = {
             nama,
-            lokasi,
-            deskripsi
+            nama_latin,
+            nama_lokal,
+            famili,
+            kegunaan
         };
 
         // Jika ada file foto baru yang diupload

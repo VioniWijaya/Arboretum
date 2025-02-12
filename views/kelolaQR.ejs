@@ -16,7 +16,7 @@
                         id="searchInput"
                         value="<%= search || '' %>"
                         placeholder="  Cari tanaman..." 
-                        class="w-full  p-2 border border-green-700 rounded-full focus:outline-none focus:ring-2 focus:ring-green-700"
+                        class="w-full p-2 border border-green-700 rounded-full focus:outline-none focus:ring-2 focus:ring-green-700"
                         >
                     </div>
                     <button 
@@ -26,7 +26,6 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                    <!-- <span>Cari</span> -->
                 </button>
                 <button 
                 type="button"
@@ -36,7 +35,6 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
-                <!-- <span>Reset</span> -->
             </button>
 
             <button class="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
@@ -52,34 +50,45 @@
         <table class="w-full mt-4">
             <thead>
                 <tr class="text-left text-gray-500 border-b">
-                    <th class="py-2 w-16">No</th>
-                    <th class="py-2 w-64">Nama Tanaman</th>
-                    <th class="py-2 w-48">Lokasi</th>
-                    <th class="py-2 w-96">Deskripsi</th>
+                    <th class="py-2 w-12">No</th>
+                    <th class="py-2 w-48">Nama Tanaman</th>
+                    <th class="py-2 w-48">Nama Lokal</th>
+                    <th class="py-2 w-48">Nama Latin</th>
+                    <th class="py-2 w-32">Famili</th>
+                    <th class="py-2 w-64">Kegunaan</th>
                     <th class="py-2 w-48">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Data Row -->
                 <% tanaman.forEach(function(item) { %>
                 <tr class="border-b hover:bg-gray-50">
                     <td class="py-4"><%= item.no %></td>
                     <td class="py-4">
                         <div class="flex items-center space-x-4">
                             <img src="<%= item.foto ? item.foto : 'https://via.placeholder.com/40' %>" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
-                            <div class="truncate max-w-[200px]">
+                            <div class="truncate max-w-[160px]">
                                 <p class="font-bold"><%= item.nama %></p>
                             </div>
                         </div>
                     </td>
                     <td class="py-4">
                         <div class="truncate max-w-[160px]">
-                            <%= item.lokasi %>
+                            <%= item.nama_lokal %>
                         </div>
                     </td>
                     <td class="py-4">
-                        <div class="truncate max-w-[300px]">
-                            <%= item.deskripsi %>
+                        <div class="truncate max-w-[160px] italic">
+                            <%= item.nama_latin %>
+                        </div>
+                    </td>
+                    <td class="py-4">
+                        <div class="truncate max-w-[120px]">
+                            <%= item.famili %>
+                        </div>
+                    </td>
+                    <td class="py-4">
+                        <div class="truncate max-w-[200px]">
+                            <%= item.kegunaan %>
                         </div>
                     </td>
                     <td class="py-4 space-x-2">
@@ -87,8 +96,10 @@
                         <button 
                             data-id="<%= item.id %>"
                             data-nama="<%= item.nama %>"
-                            data-lokasi="<%= item.lokasi %>"
-                            data-deskripsi="<%= item.deskripsi %>"
+                            data-nama-lokal="<%= item.nama_lokal %>"
+                            data-nama-latin="<%= item.nama_latin %>"
+                            data-famili="<%= item.famili %>"
+                            data-kegunaan="<%= item.kegunaan %>"
                             data-foto="<%= item.foto %>"
                             onclick="openEditModal(this)"
                             class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">
@@ -118,14 +129,26 @@
                         </div>
                         
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Lokasi</label>
-                            <input type="text" id="editLokasi" name="lokasi"
+                            <label class="block text-sm font-medium text-gray-700">Nama Lokal</label>
+                            <input type="text" id="editNamaLokal" name="nama_lokal"
                                    class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700" required>
                         </div>
                         
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Deskripsi</label>
-                            <textarea id="editDeskripsi" name="deskripsi" 
+                            <label class="block text-sm font-medium text-gray-700">Nama Latin</label>
+                            <input type="text" id="editNamaLatin" name="nama_latin"
+                                   class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Famili</label>
+                            <input type="text" id="editFamili" name="famili"
+                                   class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Kegunaan</label>
+                            <textarea id="editKegunaan" name="kegunaan" 
                                      class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700" required></textarea>
                         </div>
                         
@@ -190,26 +213,31 @@
             </div>
         </div>
 
-        <!-- Pagination -->
-        <div class="flex justify-end items-end space-x-4 mt-6">
-            <% if (currentPage > 1) { %>
-                <a href="?page=<%= currentPage - 1 %>" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
-                    Sebelumnya
-                </a>
-            <% } %>
 
-            <% for(let i = 1; i <= totalPages; i++) { %>
-                <a href="?page=<%= i %>" class="px-4 py-2 <%= currentPage === i ? 'bg-blue-500 text-white' : 'bg-gray-200' %> rounded-lg hover:bg-gray-300">
-                    <%= i %>
-                </a>
-            <% } %>
+    <!-- Pagination with Icons -->
+    <div class="flex justify-end items-end space-x-4 mt-6">
+        <% if (currentPage > 1) { %>
+            <a href="?page=<%= currentPage - 1 %>" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
+        <% } %>
 
-            <% if (currentPage < totalPages) { %>
-                <a href="?page=<%= currentPage + 1 %>" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
-                    Selanjutnya
-                </a>
-            <% } %>
-        </div>
+        <% for(let i = 1; i <= totalPages; i++) { %>
+            <a href="?page=<%= i %>" class="px-4 py-2 <%= currentPage === i ? 'bg-blue-500 text-white' : 'bg-gray-200' %> rounded-lg hover:bg-gray-300">
+                <%= i %>
+            </a>
+        <% } %>
+
+        <% if (currentPage < totalPages) { %>
+            <a href="?page=<%= currentPage + 1 %>" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        <% } %>
+</div>
     </div>
 </main>
 
@@ -219,14 +247,18 @@ let deleteId = null;
 function openEditModal(button) {
     const id = button.dataset.id;
     const nama = button.dataset.nama;
-    const lokasi = button.dataset.lokasi;
-    const deskripsi = button.dataset.deskripsi;
+    const namaLokal = button.dataset['namaLokal'];
+    const namaLatin = button.dataset['namaLatin'];
+    const famili = button.dataset.famili;
+    const kegunaan = button.dataset.kegunaan;
     const foto = button.dataset.foto;
     
     document.getElementById('editId').value = id;
     document.getElementById('editNama').value = nama;
-    document.getElementById('editLokasi').value = lokasi;
-    document.getElementById('editDeskripsi').value = deskripsi;
+    document.getElementById('editNamaLokal').value = namaLokal;
+    document.getElementById('editNamaLatin').value = namaLatin;
+    document.getElementById('editFamili').value = famili;
+    document.getElementById('editKegunaan').value = kegunaan;
     
     // Tampilkan preview foto yang ada
     const previewContainer = document.getElementById('fotoPreview');
@@ -283,7 +315,7 @@ document.getElementById('editFoto').addEventListener('change', function(e) {
     }
 });
 
-// Update the fetch URL in the form submit handler
+// Handle form submission for editing
 document.getElementById('editForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
@@ -291,7 +323,6 @@ document.getElementById('editForm').addEventListener('submit', async function(e)
     const formData = new FormData(this);
 
     try {
-        // Remove the /tanaman prefix since it's already in the base route
         const response = await fetch(`/edit/${id}`, {
             method: 'POST',
             body: formData
@@ -311,11 +342,10 @@ document.getElementById('editForm').addEventListener('submit', async function(e)
     }
 });
 
-// Update the delete handler
+// Handle delete confirmation
 document.getElementById('confirmDelete').addEventListener('click', async function() {
     if (deleteId) {
         try {
-            // Remove the /tanaman prefix
             const response = await fetch(`/hapus/${deleteId}`, {
                 method: 'DELETE'
             });
@@ -334,54 +364,56 @@ document.getElementById('confirmDelete').addEventListener('click', async functio
         }
     }
 });
-// Event listeners untuk menutup modal saat mengklik di luar modal
+
+// Close modals when clicking outside
 window.onclick = function(event) {
     if (event.target.id === 'editModal' || 
         event.target.id === 'deleteModal' || 
         event.target.id === 'successModal') {
-        event.target.style.display = event.target.style.display = 'none';
+        event.target.style.display = 'none';
     }
 }
-</script>
-<script>
-    const searchForm = document.getElementById('searchForm');
-    const searchInput = document.getElementById('searchInput');
-    const resetButton = document.getElementById('resetButton');
+
+// Search functionality
+const searchForm = document.getElementById('searchForm');
+const searchInput = document.getElementById('searchInput');
+const resetButton = document.getElementById('resetButton');
+
+// Handle form submission
+searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const searchValue = searchInput.value.trim();
     
-    // Handle form submission
-    searchForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const searchValue = searchInput.value.trim();
-        
-        // Get current URL and update search parameter
-        const url = new URL(window.location.href);
-        if (searchValue) {
-            url.searchParams.set('search', searchValue);
-        } else {
-            url.searchParams.delete('search');
-        }
-        
-        // Reset to first page when searching
-        url.searchParams.set('page', '1');
-        
-        window.location.href = url.toString();
-    });
-    
-    // Handle reset button
-    resetButton.addEventListener('click', () => {
-        const url = new URL(window.location.href);
+    // Get current URL and update search parameter
+    const url = new URL(window.location.href);
+    if (searchValue) {
+        url.searchParams.set('search', searchValue);
+    } else {
         url.searchParams.delete('search');
-        url.searchParams.set('page', '1');
-        window.location.href = url.toString();
-    });
+    }
     
-    // Update pagination links to maintain search parameter
-    document.querySelectorAll('a[href*="?page="]').forEach(link => {
-        const url = new URL(link.href);
-        const searchValue = new URLSearchParams(window.location.search).get('search');
-        if (searchValue) {
-            url.searchParams.set('search', searchValue);
-            link.href = url.toString();
-        }
-    });
-    </script>
+    // Reset to first page when searching
+    url.searchParams.set('page', '1');
+    
+    window.location.href = url.toString();
+});
+
+// Handle reset button
+resetButton.addEventListener('click', () => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('search');
+    url.searchParams.set('page', '1');
+    window.location.href = url.toString();
+});
+
+// Update pagination links to maintain search parameter
+document.querySelectorAll('a[href*="?page="]').forEach(link => {
+    const url = new URL(link.href);
+    const searchValue = new URLSearchParams(window.location.search).get('search');
+    if (searchValue) {
+        url.searchParams.set('search', searchValue);
+        link.href = url.toString();
+    }
+});
+</script>
+<%- include('footer')%>

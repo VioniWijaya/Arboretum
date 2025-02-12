@@ -12,14 +12,28 @@ module.exports = (sequelize) => {
           notEmpty: true,
         },
       },
-      lokasi: {
+      nama_latin: {
         type: DataTypes.STRING(255),
         allowNull: false,
         validate: {
           notEmpty: true,
         },
       },
-      deskripsi: {
+      nama_lokal: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      famili: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      kegunaan: {
         type: DataTypes.TEXT,
         allowNull: false,
         validate: {

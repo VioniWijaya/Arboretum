@@ -3,8 +3,6 @@
 <main class="container mx-auto mt-6 px-6 ">
     <div class="bg-white rounded-lg shadow-lg p-6">
         <div class="flex justify-between items-center">
-            <!-- Tambahkan ini setelah div flex justify-between di kedua halaman -->
-            
             <div>
                 <h2 class="text-xl font-bold">Daftar Tanaman</h2>
                 <h3 class="text-gray-400 font-bold">Total Tanaman : <%= totalTanaman %> jenis</h3>
@@ -18,7 +16,7 @@
                         id="searchInput"
                         value="<%= search || '' %>"
                         placeholder="  Cari nama tanaman..." 
-                        class="w-full  p-2 border border-green-700 rounded-full focus:outline-none focus:ring-2 focus:ring-green-700"
+                        class="w-full p-2 border border-green-700 rounded-full focus:outline-none focus:ring-2 focus:ring-green-700"
                         >
                     </div>
                     <button 
@@ -28,7 +26,6 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                    <!-- <span>Cari</span> -->
                 </button>
                 <button 
                 type="button"
@@ -38,7 +35,6 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
-                <!-- <span>Reset</span> -->
             </button>
             <button 
                 id="downloadAllButton"
@@ -56,10 +52,12 @@
         <table class="w-full mt-4">
             <thead>
                 <tr class="text-left text-gray-500 border-b">
-                    <th class="py-2 w-16">No</th>
-                    <th class="py-2 w-64">Nama Tanaman</th>
-                    <th class="py-2 w-48">Lokasi</th>
-                    <th class="py-2 w-96">Deskripsi</th>
+                    <th class="py-2 w-12">No</th>
+                    <th class="py-2 w-48">Nama Tanaman</th>
+                    <th class="py-2 w-48">Nama Lokal</th>
+                    <th class="py-2 w-48">Nama Latin</th>
+                    <th class="py-2 w-32">Famili</th>
+                    <th class="py-2 w-64">Kegunaan</th>
                     <th class="py-2 w-48">Aksi</th>
                 </tr>
             </thead>
@@ -67,14 +65,34 @@
                 <% tanaman.forEach(function(item) { %>
                 <tr class="border-b hover:bg-gray-50">
                     <td class="py-4"><%= item.no %></td>
-                    <td class="py-4 flex items-center space-x-4">
-                        <img src="<%= item.foto || 'https://via.placeholder.com/40' %>" alt="Avatar" class="w-10 h-10 rounded-full">
-                        <div>
-                            <p class="font-bold"><%= item.nama %></p>
+                    <td class="py-4">
+                        <div class="flex items-center space-x-4">
+                            <img src="<%= item.foto || 'https://via.placeholder.com/40' %>" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
+                            <div class="truncate max-w-[160px]">
+                                <p class="font-bold"><%= item.nama %></p>
+                            </div>
                         </div>
                     </td>
-                    <td class="py-4"><%= item.lokasi %></td>
-                    <td class="py-4"><%= item.deskripsi.length > 50 ? item.deskripsi.substring(0, 50) + '...' : item.deskripsi %></td>
+                    <td class="py-4">
+                        <div class="truncate max-w-[160px]">
+                            <%= item.nama_lokal %>
+                        </div>
+                    </td>
+                    <td class="py-4">
+                        <div class="truncate max-w-[160px] italic">
+                            <%= item.nama_latin %>
+                        </div>
+                    </td>
+                    <td class="py-4">
+                        <div class="truncate max-w-[120px]">
+                            <%= item.famili %>
+                        </div>
+                    </td>
+                    <td class="py-4">
+                        <div class="truncate max-w-[200px]">
+                            <%= item.kegunaan.length > 50 ? item.kegunaan.substring(0, 50) + '...' : item.kegunaan %>
+                        </div>
+                    </td>
                     <td class="py-4">
                         <button onclick="downloadQRCode('<%= item.id %>', '<%= item.nama %>')" class="flex items-center space-x-2 bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
@@ -88,11 +106,13 @@
             </tbody>
         </table>
 
-        <!-- Pagination section remains the same -->
+        <!-- Updated Pagination with Icons -->
         <div class="flex justify-end items-end space-x-4 mt-6">
             <% if (currentPage > 1) { %>
-                <a href="?page=<%= currentPage - 1 %>" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
-                    Sebelumnya
+                <a href="?page=<%= currentPage - 1 %>" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
                 </a>
             <% } %>
 
@@ -103,13 +123,16 @@
             <% } %>
 
             <% if (currentPage < totalPages) { %>
-                <a href="?page=<%= currentPage + 1 %>" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
-                    Selanjutnya
+                <a href="?page=<%= currentPage + 1 %>" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
                 </a>
             <% } %>
         </div>
     </div>
 </main>
+<%- include('footer')%>
 
 <script>
 async function downloadQRCode(id, nama) {
@@ -129,12 +152,12 @@ async function downloadQRCode(id, nama) {
         alert('Gagal mengunduh QR Code');
     }
 }
+
 async function downloadAllQRCodes() {
     const button = document.getElementById('downloadAllButton');
     const originalText = button.innerHTML;
     
     try {
-        // Tampilkan loading state
         button.innerHTML = `
             <svg class="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -155,21 +178,14 @@ async function downloadAllQRCodes() {
             throw new Error('Gagal mengunduh file');
         }
 
-        // Get the blob from response
         const blob = await response.blob();
-        
-        // Create download link
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
         a.download = 'semua_qrcode.zip';
-        
-        // Trigger download
         document.body.appendChild(a);
         a.click();
-        
-        // Cleanup
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
 
@@ -177,52 +193,41 @@ async function downloadAllQRCodes() {
         console.error('Download error:', error);
         alert('Gagal mengunduh QR Codes');
     } finally {
-        // Reset button state
         button.innerHTML = originalText;
         button.disabled = false;
     }
 }
 
-</script>
-<script>
-    const searchForm = document.getElementById('searchForm');
-    const searchInput = document.getElementById('searchInput');
-    const resetButton = document.getElementById('resetButton');
-    
-    // Handle form submission
-    searchForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const searchValue = searchInput.value.trim();
-        
-        // Get current URL and update search parameter
-        const url = new URL(window.location.href);
-        if (searchValue) {
-            url.searchParams.set('search', searchValue);
-        } else {
-            url.searchParams.delete('search');
-        }
-        
-        // Reset to first page when searching
-        url.searchParams.set('page', '1');
-        
-        window.location.href = url.toString();
-    });
-    
-    // Handle reset button
-    resetButton.addEventListener('click', () => {
-        const url = new URL(window.location.href);
+const searchForm = document.getElementById('searchForm');
+const searchInput = document.getElementById('searchInput');
+const resetButton = document.getElementById('resetButton');
+
+searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const searchValue = searchInput.value.trim();
+    const url = new URL(window.location.href);
+    if (searchValue) {
+        url.searchParams.set('search', searchValue);
+    } else {
         url.searchParams.delete('search');
-        url.searchParams.set('page', '1');
-        window.location.href = url.toString();
-    });
-    
-    // Update pagination links to maintain search parameter
-    document.querySelectorAll('a[href*="?page="]').forEach(link => {
-        const url = new URL(link.href);
-        const searchValue = new URLSearchParams(window.location.search).get('search');
-        if (searchValue) {
-            url.searchParams.set('search', searchValue);
-            link.href = url.toString();
-        }
-    });
-    </script>
+    }
+    url.searchParams.set('page', '1');
+    window.location.href = url.toString();
+});
+
+resetButton.addEventListener('click', () => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('search');
+    url.searchParams.set('page', '1');
+    window.location.href = url.toString();
+});
+
+document.querySelectorAll('a[href*="?page="]').forEach(link => {
+    const url = new URL(link.href);
+    const searchValue = new URLSearchParams(window.location.search).get('search');
+    if (searchValue) {
+        url.searchParams.set('search', searchValue);
+        link.href = url.toString();
+    }
+});
+</script>

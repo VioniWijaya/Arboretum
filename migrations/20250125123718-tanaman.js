@@ -13,11 +13,19 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      lokasi: {
+      nama_latin: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      deskripsi: {
+      nama_lokal: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      famili : {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      kegunaan: {
         type: Sequelize.TEXT,
         allowNull: false,
       },
