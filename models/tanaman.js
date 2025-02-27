@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   class Tanaman extends Model {}
@@ -33,7 +33,7 @@ module.exports = (sequelize) => {
           notEmpty: true,
         },
       },
-      kegunaan: {
+      deskripsi: {
         type: DataTypes.TEXT,
         allowNull: false,
         validate: {
@@ -51,8 +51,8 @@ module.exports = (sequelize) => {
     },
     {
       sequelize,
-      modelName: 'tanaman',
-      tableName: 'tanaman',
+      modelName: "tanaman",
+      tableName: "tanaman",
       timestamps: true,
     }
   );

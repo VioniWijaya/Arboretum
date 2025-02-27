@@ -9,6 +9,7 @@ require('dotenv').config();
 
 // const indexRouter = require('./routes/index');
 const qrRouter = require('./routes/qrRoutes');
+const authRouter = require('./routes/authRoutes');
 
 
 const app = express();
@@ -34,6 +35,7 @@ app.use(session({
   app.use(flash());
   
 
+app.use('/auth', authRouter);
 app.use('/', qrRouter);
 
 

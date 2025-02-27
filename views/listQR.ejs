@@ -1,14 +1,14 @@
 <%- include('header')%>
 <!-- Main Content -->
-<main class="container mx-auto mt-6 px-6 ">
-    <div class="bg-white rounded-lg shadow-lg p-6">
-        <div class="flex justify-between items-center">
+<main class="container mx-auto mt-6 px-3 md:px-6">
+    <div class="bg-white rounded-lg shadow-lg p-3 md:p-6">
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center">
             <div>
                 <h2 class="text-xl font-bold">Daftar Tanaman</h2>
                 <h3 class="text-gray-400 font-bold">Total Tanaman : <%= totalTanaman %> jenis</h3>
             </div>
-            <div class="mt-4 mb-2">
-                <form id="searchForm" class="flex gap-2">
+            <div class="mt-4 mb-2 w-full md:w-auto">
+                <form id="searchForm" class="flex flex-wrap gap-2">
                     <div class="flex-grow">
                         <input 
                         type="text" 
@@ -19,116 +19,160 @@
                         class="w-full p-2 border border-green-700 rounded-full focus:outline-none focus:ring-2 focus:ring-green-700"
                         >
                     </div>
+                    <div class="flex gap-2">
+                        <button 
+                        type="submit"
+                        class="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 flex items-center gap-2"
+                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </button>
                     <button 
-                    type="submit"
-                    class="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 flex items-center gap-2"
+                    type="button"
+                    id="resetButton"
+                    class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 flex items-center gap-2"
                     >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                 </button>
                 <button 
-                type="button"
-                id="resetButton"
-                class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 flex items-center gap-2"
-                >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-            </button>
-            <button 
-                id="downloadAllButton"
-                onclick="downloadAllQRCodes()" 
-                class="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                <span>Unduh Semua QRCode</span>
-            </button>
+                    id="downloadAllButton"
+                    onclick="downloadAllQRCodes()" 
+                    class="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    <span class="hidden sm:inline">Unduh Semua QRCode</span>
+                </button>
+                    </div>
                 </form>
             </div>
         </div>
 
-        <table class="w-full mt-4">
-            <thead>
-                <tr class="text-left text-gray-500 border-b">
-                    <th class="py-2 w-12">No</th>
-                    <th class="py-2 w-48">Nama Tanaman</th>
-                    <th class="py-2 w-48">Nama Lokal</th>
-                    <th class="py-2 w-48">Nama Latin</th>
-                    <th class="py-2 w-32">Famili</th>
-                    <th class="py-2 w-64">Kegunaan</th>
-                    <th class="py-2 w-48">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% tanaman.forEach(function(item) { %>
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="py-4"><%= item.no %></td>
-                    <td class="py-4">
-                        <div class="flex items-center space-x-4">
-                            <img src="<%= item.foto || 'https://via.placeholder.com/40' %>" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
-                            <div class="truncate max-w-[160px]">
-                                <p class="font-bold"><%= item.nama %></p>
+        <div class="overflow-x-auto">
+            <table class="w-full mt-4">
+                <thead>
+                    <tr class="text-left text-gray-500 border-b">
+                        <th class="py-2 px-1 md:px-2">No</th>
+                        <th class="py-2 px-1 md:px-2">Nama Tanaman</th>
+                        <th class="py-2 px-1 md:px-2 hidden sm:table-cell">Nama Lokal</th>
+                        <th class="py-2 px-1 md:px-2 hidden md:table-cell">Nama Latin</th>
+                        <th class="py-2 px-1 md:px-2 hidden lg:table-cell">Famili</th>
+                        <th class="py-2 px-1 md:px-2 hidden lg:table-cell">Deskripsi</th>
+                        <th class="py-2 px-1 md:px-2">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% tanaman.forEach(function(item) { %>
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="py-2 md:py-4 px-1 md:px-2"><%= item.no %></td>
+                        <td class="py-2 md:py-4 px-1 md:px-2">
+                            <div class="flex items-center space-x-2 md:space-x-4">
+                                <img src="<%= item.foto || 'https://via.placeholder.com/40' %>" alt="Avatar" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover">
+                                <div class="truncate max-w-[80px] sm:max-w-[120px] md:max-w-[160px]">
+                                    <p class="font-bold text-sm md:text-base"><%= item.nama %></p>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td class="py-4">
-                        <div class="truncate max-w-[160px]">
-                            <%= item.nama_lokal %>
-                        </div>
-                    </td>
-                    <td class="py-4">
-                        <div class="truncate max-w-[160px] italic">
-                            <%= item.nama_latin %>
-                        </div>
-                    </td>
-                    <td class="py-4">
-                        <div class="truncate max-w-[120px]">
-                            <%= item.famili %>
-                        </div>
-                    </td>
-                    <td class="py-4">
-                        <div class="truncate max-w-[200px]">
-                            <%= item.kegunaan.length > 50 ? item.kegunaan.substring(0, 50) + '...' : item.kegunaan %>
-                        </div>
-                    </td>
-                    <td class="py-4">
-                        <button onclick="downloadQRCode('<%= item.id %>', '<%= item.nama %>')" class="flex items-center space-x-2 bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                            <span>Unduh QRCode</span>
-                        </button>
-                    </td>
-                </tr>
-                <% }); %>
-            </tbody>
-        </table>
+                        </td>
+                        <td class="py-2 md:py-4 px-1 md:px-2 hidden sm:table-cell">
+                            <div class="truncate max-w-[80px] md:max-w-[120px] lg:max-w-[160px]">
+                                <%= item.nama_lokal %>
+                            </div>
+                        </td>
+                        <td class="py-2 md:py-4 px-1 md:px-2 hidden md:table-cell">
+                            <div class="truncate max-w-[120px] lg:max-w-[160px] italic">
+                                <%= item.nama_latin %>
+                            </div>
+                        </td>
+                        <td class="py-2 md:py-4 px-1 md:px-2 hidden lg:table-cell">
+                            <div class="truncate max-w-[80px] xl:max-w-[120px]">
+                                <%= item.famili %>
+                            </div>
+                        </td>
+                        <td class="py-2 md:py-4 px-1 md:px-2 hidden lg:table-cell">
+                            <div class="truncate max-w-[100px] xl:max-w-[200px]">
+                                <%= item.deskripsi.length > 50 ? item.deskripsi.substring(0, 50) + '...' : item.deskripsi %>
+                            </div>
+                        </td>
+                        <td class="py-2 md:py-4 px-1 md:px-2">
+                            <button onclick="downloadQRCode('<%= item.id %>', '<%= item.nama %>')" class="flex items-center space-x-1 md:space-x-2 bg-teal-500 text-white px-2 py-1 md:px-4 md:py-2 rounded-lg hover:bg-teal-600 text-xs md:text-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 md:w-5 md:h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                <span class="hidden sm:inline">Unduh QRCode</span>
+                                <span class="sm:hidden">QR</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
 
         <!-- Updated Pagination with Icons -->
-        <div class="flex justify-end items-end space-x-4 mt-6">
-            <% if (currentPage > 1) { %>
-                <a href="?page=<%= currentPage - 1 %>" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 mt-6">
+            <!-- Items per page dropdown -->
+            <div class="flex items-center gap-2">
+                <label for="itemsPerPage" class="text-sm text-gray-600">Tampilkan:</label>
+                <select id="itemsPerPage" onchange="changeItemsPerPage(this.value)" class="px-2 py-1 border border-gray-300 rounded-md text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="10" <%= itemsPerPage == 10 ? 'selected' : '' %>>10</option>
+                    <option value="20" <%= itemsPerPage == 20 ? 'selected' : '' %>>20</option>
+                    <option value="50" <%= itemsPerPage == 50 ? 'selected' : '' %>>50</option>
+                    <option value="100" <%= itemsPerPage == 100 ? 'selected' : '' %>>100</option>
+                </select>
+                <span class="text-sm text-gray-600">data per halaman</span>
+            </div>
+        
+            <!-- Pagination buttons -->
+            <div class="flex justify-center items-center flex-wrap gap-1 md:gap-2">
+                <!-- First & Previous Buttons - Selalu ditampilkan tapi dinonaktifkan jika di halaman pertama -->
+                <a href="<%= currentPage > 1 ? `?page=1${search ? '&search=' + search : ''}${itemsPerPage ? '&itemsPerPage=' + itemsPerPage : ''}` : '#' %>" 
+                class="px-2 py-1 md:px-3 md:py-2 rounded-md <%= currentPage > 1 ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-gray-50 text-gray-300 cursor-not-allowed' %> transition-colors duration-200" 
+                <%= currentPage === 1 ? 'disabled' : '' %>
+                title="First Page">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M15.707 15.707a1 1 0 01-1.414 0L9 10.414l5.293-5.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M9.707 15.707a1 1 0 01-1.414 0L3 10.414l5.293-5.293a1 1 0 111.414 1.414L5.414 10l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                </svg>
                 </a>
-            <% } %>
-
-            <% for(let i = 1; i <= totalPages; i++) { %>
-                <a href="?page=<%= i %>" class="px-4 py-2 <%= currentPage === i ? 'bg-blue-500 text-white' : 'bg-gray-200' %> rounded-lg hover:bg-gray-300">
+                <a href="<%= currentPage > 1 ? `?page=${currentPage - 1}${search ? '&search=' + search : ''}${itemsPerPage ? '&itemsPerPage=' + itemsPerPage : ''}` : '#' %>" 
+                class="px-2 py-1 md:px-3 md:py-2 rounded-md <%= currentPage > 1 ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-gray-50 text-gray-300 cursor-not-allowed' %> transition-colors duration-200"
+                <%= currentPage === 1 ? 'disabled' : '' %>
+                title="Previous Page">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12.707 15.707a1 1 0 01-1.414 0L6 10.414l5.293-5.293a1 1 0 111.414 1.414L8.414 10l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                </svg>
+                </a>
+            
+                <!-- Page Numbers -->
+                <% for(let i = 1; i <= totalPages; i++) { %>
+                <a href="?page=<%= i %><%= search ? '&search=' + search : '' %><%= itemsPerPage ? '&itemsPerPage=' + itemsPerPage : '' %>" 
+                    class="px-3 py-1 md:px-4 md:py-2 rounded-md text-xs md:text-sm font-medium <%= currentPage === i ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' %> transition-colors duration-200">
                     <%= i %>
                 </a>
-            <% } %>
-
-            <% if (currentPage < totalPages) { %>
-                <a href="?page=<%= currentPage + 1 %>" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
+                <% } %>
+            
+                <!-- Next & Last Buttons - Selalu ditampilkan tapi dinonaktifkan jika di halaman terakhir -->
+                <a href="<%= currentPage < totalPages ? `?page=${currentPage + 1}${search ? '&search=' + search : ''}${itemsPerPage ? '&itemsPerPage=' + itemsPerPage : ''}` : '#' %>" 
+                class="px-2 py-1 md:px-3 md:py-2 rounded-md <%= currentPage < totalPages ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-gray-50 text-gray-300 cursor-not-allowed' %> transition-colors duration-200"
+                <%= currentPage === totalPages ? 'disabled' : '' %>
+                title="Next Page">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.293 15.707a1 1 0 001.414 0L14 10.414 8.707 5.121a1 1 0 00-1.414 1.414L11.586 10l-4.293 4.293a1 1 0 000 1.414z" clip-rule="evenodd" />
+                </svg>
                 </a>
-            <% } %>
+                <a href="<%= currentPage < totalPages ? `?page=${totalPages}${search ? '&search=' + search : ''}${itemsPerPage ? '&itemsPerPage=' + itemsPerPage : ''}` : '#' %>" 
+                class="px-2 py-1 md:px-3 md:py-2 rounded-md <%= currentPage < totalPages ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-gray-50 text-gray-300 cursor-not-allowed' %> transition-colors duration-200"
+                <%= currentPage === totalPages ? 'disabled' : '' %>
+                title="Last Page">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M4.293 15.707a1 1 0 001.414 0L11 10.414l-5.293-5.293a1 1 0 00-1.414 1.414L8.586 10l-4.293 4.293a1 1 0 000 1.414z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M10.293 15.707a1 1 0 001.414 0L17 10.414l-5.293-5.293a1 1 0 00-1.414 1.414L14.586 10l-4.293 4.293a1 1 0 000 1.414z" clip-rule="evenodd" />
+                </svg>
+                </a>
+            </div>
         </div>
     </div>
 </main>
@@ -153,6 +197,20 @@ async function downloadQRCode(id, nama) {
     }
 }
 
+function changeItemsPerPage(value) {
+        // Ambil parameter URL saat ini
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Update parameter itemsPerPage
+        urlParams.set('itemsPerPage', value);
+        
+        // Reset page ke 1 ketika mengubah jumlah item per halaman
+        urlParams.set('page', 1);
+        
+        // Redirect ke URL baru dengan parameter yang diperbarui
+        window.location.href = window.location.pathname + '?' + urlParams.toString();
+    }
+
 async function downloadAllQRCodes() {
     const button = document.getElementById('downloadAllButton');
     const originalText = button.innerHTML;
@@ -163,7 +221,7 @@ async function downloadAllQRCodes() {
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            <span>Mengunduh...</span>
+            <span class="hidden sm:inline">Mengunduh...</span>
         `;
         button.disabled = true;
 
@@ -230,4 +288,5 @@ document.querySelectorAll('a[href*="?page="]').forEach(link => {
         link.href = url.toString();
     }
 });
+
 </script>

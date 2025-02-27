@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/sumbar.png">
+    <title>Login | ARBOCODE BSPTH</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+      body {
+          background: url('/hutan4.jpg') no-repeat center center/cover;
+          font-family: 'Poppins', sans-serif;
+          min-height: 100vh;
+      }
+
+      .glass {
+          background: rgba(255, 255, 255, 0.15);
+          /* backdrop-filter: blur(12px); */
+          border-radius: 12px;
+          padding: 20px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+          max-width: 100%;
+          width: 100%;
+      }
+
+      @media (min-width: 640px) {
+          .glass {
+              padding: 30px;
+              width: 24rem;
+          }
+      }
+
+      .input-box {
+          backdrop-filter: blur(8px);
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          padding: 10px;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .input-box input {
+          background: none;
+          border: none;
+          outline: none;
+          width: 100%;
+          padding: 5px;
+          font-size: 1rem;
+      }
+
+      /* Mengatasi background autofill */
+      input:-webkit-autofill,
+      input:-webkit-autofill:hover,
+      input:-webkit-autofill:focus,
+      input:-webkit-autofill:active {
+          -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+          -webkit-text-fill-color: white !important;
+          transition: background-color 5000s ease-in-out 0s;
+          background: transparent !important;
+      }
+
+      /* Mengatasi background autofill untuk Firefox */
+      input:autofill {
+          background: transparent !important;
+          color: white !important;
+      }
+
+      .input-box input:focus {
+          border: none;
+          outline: none;
+          background: transparent !important;
+      }
+
+      ::placeholder {
+          color: rgba(255, 255, 255, 0.7);
+      }
+
+      #usernameInput, #passwordInput {
+          color: white;
+          background: transparent !important;
+      }
+      
+      .icon {
+          cursor: pointer;
+          color: white;
+          font-size: 1.25rem;
+      }
+
+      .error-alert {
+          background-color: rgba(220, 38, 38, 0.9);
+          color: white;
+          padding: 4px 2px;
+          border-radius: 8px;
+          margin-bottom: 1rem;
+          display: none;
+      }
+
+      .input-error {
+          border-color: rgba(220, 38, 38, 0.5) !important;
+      }
+  </style>
+</head>
+
+<body class="flex justify-center items-center min-h-screen p-4 sm:p-6">
+    <div class="glass p-6 sm:p-8 text-center">
+      
+      <!-- Logo -->
+      <img src="/sumbar.png" alt="Logo Dinas Kehutanan" class="mx-auto w-16 sm:w-20 mb-3 sm:mb-4">
+      
+      <!-- Judul -->
+      <h1 class="text-2xl sm:text-3xl font-bold text-white">SELAMAT DATANG</h1>
+      <p class="text-base sm:text-lg text-gray-200 mb-4 sm:mb-6 font-semibold">ARBOCODE BSPTH - DINAS KEHUTANAN SUMATERA BARAT</p>
+      
+      <!-- Error Alert -->
+      <div id="errorAlert" class="error-alert">
+          <p id="errorMessage" class="text-sm sm:text-base"></p>
+      </div>
+        <!-- Form Login -->
+        <form method="POST" action="/auth/login" id="loginForm" class="space-y-4 sm:space-y-5">
+            <!-- Input username -->
+            <div>
+                <label class="block text-xs sm:text-sm text-white text-left font-medium mb-1">Username</label>
+                <div class="input-box">
+                    <input id="usernameInput" type="username" placeholder="Masukkan Username Anda" name="username" required />
+                </div>
+            </div>
+
+            <!-- Input Password -->
+            <div>
+                <label class="block text-xs sm:text-sm text-white text-left font-medium mb-1">Password</label>
+                <div class="input-box relative">
+                    <input id="passwordInput" type="password" placeholder="Masukkan Password Anda" name="password"
+                        required />
+                    <span id="togglePassword"
+                        class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer material-icons text-base sm:text-xl">
+                        visibility_off
+                    </span>
+                </div>
+            </div>
+
+            <!-- Tombol Masuk -->
+            <button
+                class="btn bg-green-900 text-white hover:bg-green-800 w-full py-2 rounded-lg shadow-md font-semibold text-base sm:text-lg mt-2">
+                MASUK
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('passwordInput');
+        const errorAlert = document.getElementById('errorAlert');
+        const errorMessage = document.getElementById('errorMessage');
+        const loginForm = document.getElementById('loginForm');
+
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            this.textContent = type === 'password' ? 'visibility_off' : 'visibility';
+        });
+
+        // Function to show error message
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorAlert.style.display = 'block';
+        }
+
+        // Function to hide error message
+        function hideError() {
+            errorAlert.style.display = 'none';
+        }
+
+        // Check for flash messages on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            <% if (messages && messages.error && messages.error.length > 0) { %>
+                showError('<%= messages.error[0].msg %>');
+            <% } %>
+        });
+
+        // Form validation
+        loginForm.addEventListener('submit', function(e) {
+            const username = document.getElementById('usernameInput').value;
+            const password = document.getElementById('passwordInput').value;
+
+            // Reset previous errors
+            hideError();
+            document.querySelectorAll('.input-box').forEach(box => {
+                box.classList.remove('input-error');
+            });
+
+            // Validate username format
+            const usernameRegex = /^[a-zA-Z0-9-]+$/; // Allows letters, numbers, and hyphens
+
+            if (!usernameRegex.test(username)) {
+                e.preventDefault();
+                showError('Invalid username format');
+                document.getElementById('usernameInput').parentElement.classList.add('input-error');
+                return;
+            }
+
+
+            // Validate password length
+            if (password.length < 6) {
+                e.preventDefault();
+                showError('Password harus minimal 6 karakter');
+                document.getElementById('passwordInput').parentElement.classList.add('input-error');
+                return;
+            }
+        });
+    </script>
+</body>
+
+</html>

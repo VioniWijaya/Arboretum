@@ -14,11 +14,11 @@ class TanamanController {
                 fs.mkdirSync(qrCodeDir, { recursive: true });
             }
     
-            const { nama, nama_latin, nama_lokal, famili, kegunaan } = req.body;
+            const { nama, nama_latin, nama_lokal, famili, deskripsi } = req.body;
             const foto = req.file ? `/uploads/${req.file.filename}` : null;
     
             // Simpan data tanaman ke database
-            const newTanaman = await TanamanModel.create({ nama, nama_latin, nama_lokal, famili, kegunaan, foto });
+            const newTanaman = await TanamanModel.create({ nama, nama_latin, nama_lokal, famili, deskripsi, foto });
     
             // URL halaman detail
             const detailUrl = `${req.protocol}://${req.get('host')}/detail/${newTanaman.id}`;
@@ -101,12 +101,13 @@ class TanamanController {
   
   static async getAllTanaman(req, res) {
     try {
-        // Set limit per halaman
-        const limit = 10;
+        // Ambil parameter dari query
         const page = parseInt(req.query.page) || 1;
-        const offset = (page - 1) * limit;
         const search = req.query.search || '';
-
+        const itemsPerPage = parseInt(req.query.itemsPerPage) || 10; // Default 10 jika tidak ada
+  
+        const offset = (page - 1) * itemsPerPage;
+  
         // Buat kondisi pencarian
         const where = {};
         if (search) {
@@ -114,24 +115,24 @@ class TanamanController {
                 [Op.like]: `%${search}%`
             };
         }
-
+  
         // Ambil total count dan data yang sudah dipaginasi
         const { count, rows } = await TanamanModel.findAndCountAll({
             where,
-            limit: limit,
+            limit: itemsPerPage, // Gunakan itemsPerPage sebagai limit
             offset: offset,
             order: [['id', 'ASC']]
         });
-
-        // Hitung total halaman
-        const totalPages = Math.ceil(count / limit);
-
+  
+        // Hitung total halaman berdasarkan itemsPerPage
+        const totalPages = Math.ceil(count / itemsPerPage);
+  
         // Tambahkan nomor urut
         const tanamanDenganNomor = rows.map((item, index) => ({
             ...item.toJSON(),
             no: offset + index + 1
         }));
-
+  
         // Tentukan view berdasarkan path
         const view = req.path === '/kelola' ? 'kelolaQR' : 'listQR';
         
@@ -140,13 +141,14 @@ class TanamanController {
             totalTanaman: count,
             currentPage: page,
             totalPages: totalPages,
-            search: search // Kirim nilai search ke view
+            search: search,
+            itemsPerPage: itemsPerPage // Kirim nilai itemsPerPage ke view
         });
     } catch (error) {
         console.error('Error fetching tanaman:', error);
         res.status(500).send('Terjadi kesalahan saat mengambil data');
     }
-}
+  }
 
 // Menampilkan form edit
 static async editForm(req, res) {
@@ -168,7 +170,7 @@ static async editForm(req, res) {
 static async updateTanaman(req, res) {
     try {
         const id = req.params.id;
-        const { nama, nama_latin, nama_lokal, famili, kegunaan } = req.body;
+        const { nama, nama_latin, nama_lokal, famili, deskripsi } = req.body;
         
         const tanaman = await TanamanModel.findByPk(id);
         if (!tanaman) {
@@ -184,7 +186,7 @@ static async updateTanaman(req, res) {
             nama_latin,
             nama_lokal,
             famili,
-            kegunaan
+            deskripsi
         };
 
         // Jika ada file foto baru yang diupload

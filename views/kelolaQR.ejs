@@ -1,419 +1,612 @@
 <%- include('header')%>
 <!-- Main Content -->
-<main class="container mx-auto mt-6 px-6">
-    <div class="bg-white rounded-lg shadow-lg p-6">
-        <div class="flex justify-between items-center">
-            <div>
-                <h2 class="text-xl font-bold">Kelola Tanaman</h2>
-                <h3 class="text-gray-400 font-bold">Total Tanaman : <%= totalTanaman %> jenis</h3>
-            </div>
-            <div class="mt-4 mb-2">
-                <form id="searchForm" class="flex gap-2">
-                    <div class="flex-grow">
-                        <input 
-                        type="text" 
-                        name="search" 
-                        id="searchInput"
-                        value="<%= search || '' %>"
-                        placeholder="  Cari tanaman..." 
-                        class="w-full p-2 border border-green-700 rounded-full focus:outline-none focus:ring-2 focus:ring-green-700"
-                        >
-                    </div>
-                    <button 
-                    type="submit"
-                    class="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 flex items-center gap-2"
-                    >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </button>
-                <button 
-                type="button"
-                id="resetButton"
-                class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 flex items-center gap-2"
-                >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
+<main class="container mx-auto mt-6 px-4 sm:px-6">
+  <div class="bg-white rounded-lg shadow-lg p-4 sm:p-6">
+
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+      <div>
+        <h2 class="text-xl font-bold">Kelola Tanaman</h2>
+        <h3 class="text-gray-400 font-bold">
+          Total Tanaman : <%= totalTanaman %> jenis
+        </h3>
+      </div>
+      
+      <div class="mt-4 mb-2 w-full sm:w-auto">
+        <form id="searchForm" class="flex flex-wrap gap-2">
+          <div class="flex-grow min-w-[200px]">
+            <input
+              type="text"
+              name="search"
+              id="searchInput"
+              value="<%= search || '' %>"
+              placeholder="  Cari tanaman..."
+              class="w-full p-2 border border-green-700 rounded-full focus:outline-none focus:ring-2 focus:ring-green-700"
+            />
+          </div>
+          <div class="flex gap-2">
+            <button
+              type="submit"
+              class="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 flex items-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                class="w-5 h-5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </button>
+            <button
+              type="button"
+              id="resetButton"
+              class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 flex items-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                class="w-5 h-5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
+              </svg>
             </button>
 
-            <button class="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-                <span><a href="/add">Tambah Tanaman</a></span>
+            <button
+              class="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                class="w-5 h-5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              <span class="hidden sm:inline"><a href="/add">Tambah Tanaman</a></span>
+              <span class="sm:hidden"><a href="/add">Tambah</a></span>
             </button>
+          </div>
         </form>
+      </div>
     </div>
+
+    <div class="overflow-x-auto mt-4">
+      <table class="w-full">
+        <thead>
+          <tr class="text-left text-gray-500 border-b">
+            <th class="py-2 px-1 w-12">No</th>
+            <th class="py-2 px-1 w-48">Nama Tanaman</th>
+            <th class="py-2 px-1 w-48 hidden sm:table-cell">Nama Lokal</th>
+            <th class="py-2 px-1 w-48 hidden md:table-cell">Nama Latin</th>
+            <th class="py-2 px-1 w-32 hidden lg:table-cell">Famili</th>
+            <th class="py-2 px-1 w-64 hidden lg:table-cell">Deskripsi</th>
+            <th class="py-2 px-1 w-48">Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% tanaman.forEach(function(item) { %>
+          <tr class="border-b hover:bg-gray-50">
+            <td class="py-4 px-1"><%= item.no %></td>
+            <td class="py-4 px-1">
+              <div class="flex items-center space-x-2 sm:space-x-4">
+                <img
+                  src="<%= item.foto ? item.foto : 'https://via.placeholder.com/40' %>"
+                  alt="Avatar"
+                  class="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover"
+                />
+                <div class="truncate max-w-[80px] sm:max-w-[160px]">
+                  <p class="font-bold text-sm sm:text-base"><%= item.nama %></p>
+                </div>
+              </div>
+            </td>
+            <td class="py-4 px-1 hidden sm:table-cell">
+              <div class="truncate max-w-[160px]"><%= item.nama_lokal %></div>
+            </td>
+            <td class="py-4 px-1 hidden md:table-cell">
+              <div class="truncate max-w-[160px] italic">
+                <%= item.nama_latin %>
+              </div>
+            </td>
+            <td class="py-4 px-1 hidden lg:table-cell">
+              <div class="truncate max-w-[120px]"><%= item.famili %></div>
+            </td>
+            <td class="py-4 px-1 hidden lg:table-cell">
+              <div class="truncate max-w-[120px] xl:max-w-[200px]"><%= item.deskripsi %></div>
+            </td>
+            <td class="py-4 px-1">
+              <div class="flex flex-wrap gap-1 sm:gap-2">
+                <a
+                  href="/detail/<%= item.id %>"
+                  class="inline-block bg-teal-400 text-white px-2 sm:px-3 py-1 rounded-lg hover:bg-teal-500 text-xs sm:text-sm"
+                  >Detail</a
+                >
+                <button
+                  data-id="<%= item.id %>"
+                  data-nama="<%= item.nama %>"
+                  data-nama-lokal="<%= item.nama_lokal %>"
+                  data-nama-latin="<%= item.nama_latin %>"
+                  data-famili="<%= item.famili %>"
+                  data-deskripsi="<%= item.deskripsi %>"
+                  data-foto="<%= item.foto %>"
+                  onclick="openEditModal(this)"
+                  class="bg-blue-500 text-white px-2 sm:px-3 py-1 rounded-lg hover:bg-blue-600 text-xs sm:text-sm"
+                >
+                  Edit
+                </button>
+                <button
+                  onclick="openDeleteModal('<%= item.id %>')"
+                  class="bg-red-500 text-white px-2 sm:px-3 py-1 rounded-lg hover:bg-red-600 text-xs sm:text-sm"
+                >
+                  Hapus
+                </button>
+              </div>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
     </div>
 
-        <table class="w-full mt-4">
-            <thead>
-                <tr class="text-left text-gray-500 border-b">
-                    <th class="py-2 w-12">No</th>
-                    <th class="py-2 w-48">Nama Tanaman</th>
-                    <th class="py-2 w-48">Nama Lokal</th>
-                    <th class="py-2 w-48">Nama Latin</th>
-                    <th class="py-2 w-32">Famili</th>
-                    <th class="py-2 w-64">Kegunaan</th>
-                    <th class="py-2 w-48">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% tanaman.forEach(function(item) { %>
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="py-4"><%= item.no %></td>
-                    <td class="py-4">
-                        <div class="flex items-center space-x-4">
-                            <img src="<%= item.foto ? item.foto : 'https://via.placeholder.com/40' %>" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
-                            <div class="truncate max-w-[160px]">
-                                <p class="font-bold"><%= item.nama %></p>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="py-4">
-                        <div class="truncate max-w-[160px]">
-                            <%= item.nama_lokal %>
-                        </div>
-                    </td>
-                    <td class="py-4">
-                        <div class="truncate max-w-[160px] italic">
-                            <%= item.nama_latin %>
-                        </div>
-                    </td>
-                    <td class="py-4">
-                        <div class="truncate max-w-[120px]">
-                            <%= item.famili %>
-                        </div>
-                    </td>
-                    <td class="py-4">
-                        <div class="truncate max-w-[200px]">
-                            <%= item.kegunaan %>
-                        </div>
-                    </td>
-                    <td class="py-4 space-x-2">
-                        <a href="/detail/<%= item.id %>" class="inline-block bg-teal-400 text-white px-3 py-1 rounded-lg hover:bg-teal-500">Detail</a>
-                        <button 
-                            data-id="<%= item.id %>"
-                            data-nama="<%= item.nama %>"
-                            data-nama-lokal="<%= item.nama_lokal %>"
-                            data-nama-latin="<%= item.nama_latin %>"
-                            data-famili="<%= item.famili %>"
-                            data-kegunaan="<%= item.kegunaan %>"
-                            data-foto="<%= item.foto %>"
-                            onclick="openEditModal(this)"
-                            class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">
-                            Edit
-                        </button>
-                        <button onclick="openDeleteModal('<%= item.id %>')" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600">
-                            Hapus
-                        </button>
-                    </td>
-                </tr>
-                <% }); %>
-            </tbody>
-        </table>
+    <!-- Modal Edit -->
+    <div
+      id="editModal"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden h-full w-full overflow-y-auto z-50"
+    >
+      <div class="flex justify-center items-center min-h-full p-4">
+        <div class="bg-white shadow-md w-full max-w-[500px] p-6 pt-0 rounded-lg max-h-[90vh] overflow-y-auto">
+          <h2 class="text-xl sm:text-2xl font-bold mb-4 text-center text-gray-800 sticky top-0 bg-white pt-4">
+            Edit Tanaman
+          </h2>
+          <form id="editForm" class="space-y-4" enctype="multipart/form-data">
+            <input type="hidden" id="editId" name="id" />
 
-        <!-- Modal Edit -->
-        <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 hidden h-full w-full">
-            <div class="flex justify-center items-center h-full">
-                <div class="bg-white shadow-md w-[500px] p-6 rounded-lg">
-                    <h2 class="text-2xl font-bold mb-4 text-center text-gray-800">Edit Tanaman</h2>
-                    <form id="editForm" class="space-y-4" enctype="multipart/form-data">
-                        <input type="hidden" id="editId" name="id">
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Nama Tanaman</label>
-                            <input type="text" id="editNama" name="nama" 
-                                   class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Nama Lokal</label>
-                            <input type="text" id="editNamaLokal" name="nama_lokal"
-                                   class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Nama Latin</label>
-                            <input type="text" id="editNamaLatin" name="nama_latin"
-                                   class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Famili</label>
-                            <input type="text" id="editFamili" name="famili"
-                                   class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Kegunaan</label>
-                            <textarea id="editKegunaan" name="kegunaan" 
-                                     class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700" required></textarea>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Foto</label>
-                            <div id="fotoPreview" class="mb-2"></div>
-                            <input type="file" name="foto" id="editFoto" accept="image/*"
-                                   class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700">
-                        </div>
-                        
-                        <div class="flex space-x-2">
-                            <button type="button" onclick="closeEditModal()" 
-                                    class="w-1/2 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
-                                Batal
-                            </button>
-                            <button type="submit" 
-                                    class="w-1/2 bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-                                Simpan
-                            </button>
-                        </div>
-                    </form>
-                </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700"
+                >Nama Tanaman</label
+              >
+              <input
+                type="text"
+                id="editNama"
+                name="nama"
+                class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700"
+                required
+              />
             </div>
-        </div>
 
-        <!-- Modal Konfirmasi Hapus -->
-        <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 hidden h-full w-full">
-            <div class="flex justify-center items-center h-full">
-                <div class="bg-white shadow-md w-[400px] p-6 rounded-lg">
-                    <h3 class="text-xl font-bold mb-4 text-center text-gray-800">Konfirmasi Hapus</h3>
-                    <p class="text-center text-gray-600 mb-6">Apakah Anda yakin ingin menghapus tanaman ini?</p>
-                    <div class="flex space-x-2">
-                        <button onclick="closeDeleteModal()" 
-                                class="w-1/2 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
-                            Batal
-                        </button>
-                        <button id="confirmDelete" 
-                                class="w-1/2 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                            Hapus
-                        </button>
-                    </div>
-                </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700"
+                >Nama Lokal</label
+              >
+              <input
+                type="text"
+                id="editNamaLokal"
+                name="nama_lokal"
+                class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700"
+                required
+              />
             </div>
-        </div>
 
-        <!-- Modal Sukses -->
-        <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden h-full w-full">
-            <div class="flex justify-center items-center h-full">
-                <div class="bg-white shadow-md w-[400px] p-6 rounded-lg">
-                    <div class="text-center">
-                        <svg class="mx-auto mb-4 text-green-500 w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800" id="successTitle">Berhasil!</h3>
-                        <p class="text-gray-600 mb-6" id="successMessage">Data berhasil diperbarui</p>
-                        <button onclick="closeSuccessModal()" 
-                                class="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-8 rounded">
-                            OK
-                        </button>
-                    </div>
-                </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700"
+                >Nama Latin</label
+              >
+              <input
+                type="text"
+                id="editNamaLatin"
+                name="nama_latin"
+                class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700"
+                required
+              />
             </div>
-        </div>
 
+            <div>
+              <label class="block text-sm font-medium text-gray-700"
+                >Famili</label
+              >
+              <input
+                type="text"
+                id="editFamili"
+                name="famili"
+                class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700"
+                required
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700"
+                >Deskripsi</label
+              >
+              <textarea
+                id="editDeskripsi"
+                name="deskripsi"
+                class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700"
+                required
+              ></textarea>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700"
+                >Foto</label
+              >
+              <div id="fotoPreview" class="mb-2"></div>
+              <input
+                type="file"
+                name="foto"
+                id="editFoto"
+                accept="image/*"
+                class="w-full p-2 border border-green-500 rounded focus:outline-none focus:ring focus:ring-green-700"
+              />
+            </div>
+
+            <div class="flex space-x-2 sticky bg-white pt-4 pb-4">
+              <button
+                type="button"
+                onclick="closeEditModal()"
+                class="w-1/2 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                class="w-1/2 bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+              >
+                Simpan
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div
+      id="deleteModal"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden h-full w-full z-50"
+    >
+      <div class="flex justify-center items-center h-full p-4">
+        <div class="bg-white shadow-md w-full max-w-[400px] p-6 rounded-lg">
+          <h3 class="text-lg sm:text-xl font-bold mb-4 text-center text-gray-800">
+            Konfirmasi Hapus
+          </h3>
+          <p class="text-center text-gray-600 mb-6">
+            Apakah Anda yakin ingin menghapus tanaman ini?
+          </p>
+          <div class="flex space-x-2">
+            <button
+              onclick="closeDeleteModal()"
+              class="w-1/2 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+            >
+              Batal
+            </button>
+            <button
+              id="confirmDelete"
+              class="w-1/2 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Hapus
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Sukses -->
+    <div
+      id="successModal"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden h-full w-full z-50"
+    >
+      <div class="flex justify-center items-center h-full p-4">
+        <div class="bg-white shadow-md w-full max-w-[400px] p-6 rounded-lg">
+          <div class="text-center">
+            <svg
+              class="mx-auto mb-4 text-green-500 w-12 h-12"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+            <h3 class="text-xl font-bold mb-2 text-gray-800" id="successTitle">
+              Berhasil!
+            </h3>
+            <p class="text-gray-600 mb-6" id="successMessage">
+              Data berhasil diperbarui
+            </p>
+            <button
+              onclick="closeSuccessModal()"
+              class="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-8 rounded"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Pagination with Icons -->
-    <div class="flex justify-end items-end space-x-4 mt-6">
-        <% if (currentPage > 1) { %>
-            <a href="?page=<%= currentPage - 1 %>" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-            </a>
-        <% } %>
-
-        <% for(let i = 1; i <= totalPages; i++) { %>
-            <a href="?page=<%= i %>" class="px-4 py-2 <%= currentPage === i ? 'bg-blue-500 text-white' : 'bg-gray-200' %> rounded-lg hover:bg-gray-300">
-                <%= i %>
-            </a>
-        <% } %>
-
-        <% if (currentPage < totalPages) { %>
-            <a href="?page=<%= currentPage + 1 %>" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-            </a>
-        <% } %>
-</div>
-    </div>
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6">
+      <!-- Items per page dropdown -->
+      <div class="flex items-center gap-2 mb-4 sm:mb-0">
+          <label for="itemsPerPage" class="text-sm text-gray-600">Tampilkan:</label>
+          <select id="itemsPerPage" onchange="changeItemsPerPage(this.value)" class="px-2 py-1 border border-gray-300 rounded-md text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="10" <%= typeof itemsPerPage !== 'undefined' && itemsPerPage == 10 ? 'selected' : '' %>>10</option>
+              <option value="20" <%= typeof itemsPerPage !== 'undefined' && itemsPerPage == 20 ? 'selected' : '' %>>20</option>
+              <option value="50" <%= typeof itemsPerPage !== 'undefined' && itemsPerPage == 50 ? 'selected' : '' %>>50</option>
+              <option value="100" <%= typeof itemsPerPage !== 'undefined' && itemsPerPage == 100 ? 'selected' : '' %>>100</option>
+          </select>
+          <span class="text-sm text-gray-600">data per halaman</span>
+      </div>
+  
+      <!-- Pagination buttons -->
+      <div class="flex justify-center sm:justify-end items-center flex-wrap gap-2">
+          <!-- First & Previous Buttons -->
+          <a href="<%= currentPage > 1 ? `?page=1${search ? '&search=' + search : ''}${typeof itemsPerPage !== 'undefined' ? '&itemsPerPage=' + itemsPerPage : ''}` : '#' %>" 
+          class="px-2 sm:px-3 py-2 rounded-md <%= currentPage > 1 ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-gray-50 text-gray-300 cursor-not-allowed' %> transition-colors duration-200" 
+          <%= currentPage === 1 ? 'disabled' : '' %>
+          title="First Page">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M15.707 15.707a1 1 0 01-1.414 0L9 10.414l5.293-5.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+              <path fill-rule="evenodd" d="M9.707 15.707a1 1 0 01-1.414 0L3 10.414l5.293-5.293a1 1 0 111.414 1.414L5.414 10l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+          </svg>
+          </a>
+          <a href="<%= currentPage > 1 ? `?page=${currentPage - 1}${search ? '&search=' + search : ''}${typeof itemsPerPage !== 'undefined' ? '&itemsPerPage=' + itemsPerPage : ''}` : '#' %>" 
+          class="px-2 sm:px-3 py-2 rounded-md <%= currentPage > 1 ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-gray-50 text-gray-300 cursor-not-allowed' %> transition-colors duration-200"
+          <%= currentPage === 1 ? 'disabled' : '' %>
+          title="Previous Page">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M12.707 15.707a1 1 0 01-1.414 0L6 10.414l5.293-5.293a1 1 0 111.414 1.414L8.414 10l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+          </svg>
+          </a>
+      
+          <!-- Page Numbers -->
+          <% for(let i = 1; i <= totalPages; i++) { %>
+          <a href="?page=<%= i %><%= search ? '&search=' + search : '' %><%= typeof itemsPerPage !== 'undefined' ? '&itemsPerPage=' + itemsPerPage : '' %>" 
+              class="px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium <%= currentPage === i ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' %> transition-colors duration-200">
+              <%= i %>
+          </a>
+          <% } %>
+      
+          <!-- Next & Last Buttons -->
+          <a href="<%= currentPage < totalPages ? `?page=${currentPage + 1}${search ? '&search=' + search : ''}${typeof itemsPerPage !== 'undefined' ? '&itemsPerPage=' + itemsPerPage : ''}` : '#' %>" 
+          class="px-2 sm:px-3 py-2 rounded-md <%= currentPage < totalPages ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-gray-50 text-gray-300 cursor-not-allowed' %> transition-colors duration-200"
+          <%= currentPage === totalPages ? 'disabled' : '' %>
+          title="Next Page">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M7.293 15.707a1 1 0 001.414 0L14 10.414 8.707 5.121a1 1 0 00-1.414 1.414L11.586 10l-4.293 4.293a1 1 0 000 1.414z" clip-rule="evenodd" />
+          </svg>
+          </a>
+          <a href="<%= currentPage < totalPages ? `?page=${totalPages}${search ? '&search=' + search : ''}${typeof itemsPerPage !== 'undefined' ? '&itemsPerPage=' + itemsPerPage : ''}` : '#' %>" 
+          class="px-2 sm:px-3 py-2 rounded-md <%= currentPage < totalPages ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-gray-50 text-gray-300 cursor-not-allowed' %> transition-colors duration-200"
+          <%= currentPage === totalPages ? 'disabled' : '' %>
+          title="Last Page">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M4.293 15.707a1 1 0 001.414 0L11 10.414l-5.293-5.293a1 1 0 00-1.414 1.414L8.586 10l-4.293 4.293a1 1 0 000 1.414z" clip-rule="evenodd" />
+              <path fill-rule="evenodd" d="M10.293 15.707a1 1 0 001.414 0L17 10.414l-5.293-5.293a1 1 0 00-1.414 1.414L14.586 10l-4.293 4.293a1 1 0 000 1.414z" clip-rule="evenodd" />
+          </svg>
+          </a>
+      </div>
+  </div>
+  </div>
 </main>
 
 <script>
-let deleteId = null;
+  let deleteId = null;
 
-function openEditModal(button) {
+  function openEditModal(button) {
     const id = button.dataset.id;
     const nama = button.dataset.nama;
-    const namaLokal = button.dataset['namaLokal'];
-    const namaLatin = button.dataset['namaLatin'];
+    const namaLokal = button.dataset["namaLokal"];
+    const namaLatin = button.dataset["namaLatin"];
     const famili = button.dataset.famili;
-    const kegunaan = button.dataset.kegunaan;
+    const deskripsi = button.dataset.deskripsi;
     const foto = button.dataset.foto;
-    
-    document.getElementById('editId').value = id;
-    document.getElementById('editNama').value = nama;
-    document.getElementById('editNamaLokal').value = namaLokal;
-    document.getElementById('editNamaLatin').value = namaLatin;
-    document.getElementById('editFamili').value = famili;
-    document.getElementById('editKegunaan').value = kegunaan;
-    
+
+    document.getElementById("editId").value = id;
+    document.getElementById("editNama").value = nama;
+    document.getElementById("editNamaLokal").value = namaLokal;
+    document.getElementById("editNamaLatin").value = namaLatin;
+    document.getElementById("editFamili").value = famili;
+    document.getElementById("editDeskripsi").value = deskripsi;
+
     // Tampilkan preview foto yang ada
-    const previewContainer = document.getElementById('fotoPreview');
+    const previewContainer = document.getElementById("fotoPreview");
     if (foto) {
-        previewContainer.innerHTML = `
+      previewContainer.innerHTML = `
             <img src="${foto}" alt="Preview" class="w-32 h-32 object-cover rounded-lg mb-2">
             <p class="text-sm text-gray-500">Foto saat ini</p>
         `;
     } else {
-        previewContainer.innerHTML = '<p class="text-sm text-gray-500">Tidak ada foto</p>';
+      previewContainer.innerHTML =
+        '<p class="text-sm text-gray-500">Tidak ada foto</p>';
     }
-    
-    document.getElementById('editModal').style.display = 'block';
-}
 
-function closeEditModal() {
-    document.getElementById('editModal').style.display = 'none';
-}
+    document.getElementById("editModal").style.display = "block";
+  }
 
-function openDeleteModal(id) {
+  function closeEditModal() {
+    document.getElementById("editModal").style.display = "none";
+  }
+
+  function openDeleteModal(id) {
     deleteId = id;
-    document.getElementById('deleteModal').style.display = 'block';
-}
+    document.getElementById("deleteModal").style.display = "block";
+  }
 
-function closeDeleteModal() {
+  function closeDeleteModal() {
     deleteId = null;
-    document.getElementById('deleteModal').style.display = 'none';
-}
+    document.getElementById("deleteModal").style.display = "none";
+  }
 
-function showSuccessModal(title, message) {
-    document.getElementById('successTitle').textContent = title;
-    document.getElementById('successMessage').textContent = message;
-    document.getElementById('successModal').style.display = 'block';
-}
+  function showSuccessModal(title, message) {
+    document.getElementById("successTitle").textContent = title;
+    document.getElementById("successMessage").textContent = message;
+    document.getElementById("successModal").style.display = "block";
+  }
 
-function closeSuccessModal() {
-    document.getElementById('successModal').style.display = 'none';
+  function closeSuccessModal() {
+    document.getElementById("successModal").style.display = "none";
     window.location.reload();
-}
+  }
 
-// Preview foto yang akan diupload
-document.getElementById('editFoto').addEventListener('change', function(e) {
+  // Preview foto yang akan diupload
+  document.getElementById("editFoto").addEventListener("change", function (e) {
     const file = e.target.files[0];
     if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const previewContainer = document.getElementById('fotoPreview');
-            previewContainer.innerHTML = `
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const previewContainer = document.getElementById("fotoPreview");
+        previewContainer.innerHTML = `
                 <img src="${e.target.result}" alt="Preview" class="w-32 h-32 object-cover rounded-lg mb-2">
                 <p class="text-sm text-gray-500">Foto baru yang akan diupload</p>
             `;
-        }
-        reader.readAsDataURL(file);
+      };
+      reader.readAsDataURL(file);
     }
-});
+  });
 
-// Handle form submission for editing
-document.getElementById('editForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const id = document.getElementById('editId').value;
-    const formData = new FormData(this);
+  // Handle form submission for editing
+  document
+    .getElementById("editForm")
+    .addEventListener("submit", async function (e) {
+      e.preventDefault();
 
-    try {
+      const id = document.getElementById("editId").value;
+      const formData = new FormData(this);
+
+      try {
         const response = await fetch(`/edit/${id}`, {
-            method: 'POST',
-            body: formData
+          method: "POST",
+          body: formData,
         });
 
         const result = await response.json();
 
         if (result.success) {
-            closeEditModal();
-            showSuccessModal('Berhasil!', 'Data tanaman berhasil diperbarui');
+          closeEditModal();
+          showSuccessModal("Berhasil!", "Data tanaman berhasil diperbarui");
         } else {
-            alert(result.message || 'Gagal mengupdate data tanaman');
+          alert(result.message || "Gagal mengupdate data tanaman");
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Terjadi kesalahan saat mengupdate data tanaman');
-    }
-});
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Terjadi kesalahan saat mengupdate data tanaman");
+      }
+    });
 
-// Handle delete confirmation
-document.getElementById('confirmDelete').addEventListener('click', async function() {
-    if (deleteId) {
+  // Handle delete confirmation
+  document
+    .getElementById("confirmDelete")
+    .addEventListener("click", async function () {
+      if (deleteId) {
         try {
-            const response = await fetch(`/hapus/${deleteId}`, {
-                method: 'DELETE'
-            });
+          const response = await fetch(`/hapus/${deleteId}`, {
+            method: "DELETE",
+          });
 
-            const result = await response.json();
+          const result = await response.json();
 
-            if (result.success) {
-                closeDeleteModal();
-                showSuccessModal('Berhasil!', 'Tanaman berhasil dihapus');
-            } else {
-                alert(result.message || 'Gagal menghapus tanaman');
-            }
+          if (result.success) {
+            closeDeleteModal();
+            showSuccessModal("Berhasil!", "Tanaman berhasil dihapus");
+          } else {
+            alert(result.message || "Gagal menghapus tanaman");
+          }
         } catch (error) {
-            console.error('Error:', error);
-            alert('Terjadi kesalahan saat menghapus tanaman');
+          console.error("Error:", error);
+          alert("Terjadi kesalahan saat menghapus tanaman");
         }
+      }
+    });
+
+  // Close modals when clicking outside
+  window.onclick = function (event) {
+    if (
+      event.target.id === "editModal" ||
+      event.target.id === "deleteModal" ||
+      event.target.id === "successModal"
+    ) {
+      event.target.style.display = "none";
     }
-});
+  };
 
-// Close modals when clicking outside
-window.onclick = function(event) {
-    if (event.target.id === 'editModal' || 
-        event.target.id === 'deleteModal' || 
-        event.target.id === 'successModal') {
-        event.target.style.display = 'none';
-    }
-}
+  // Search functionality
+  const searchForm = document.getElementById("searchForm");
+  const searchInput = document.getElementById("searchInput");
+  const resetButton = document.getElementById("resetButton");
 
-// Search functionality
-const searchForm = document.getElementById('searchForm');
-const searchInput = document.getElementById('searchInput');
-const resetButton = document.getElementById('resetButton');
-
-// Handle form submission
-searchForm.addEventListener('submit', (e) => {
+  // Handle form submission
+  searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const searchValue = searchInput.value.trim();
-    
+
     // Get current URL and update search parameter
     const url = new URL(window.location.href);
     if (searchValue) {
-        url.searchParams.set('search', searchValue);
+      url.searchParams.set("search", searchValue);
     } else {
-        url.searchParams.delete('search');
+      url.searchParams.delete("search");
     }
-    
+
     // Reset to first page when searching
-    url.searchParams.set('page', '1');
-    
-    window.location.href = url.toString();
-});
+    url.searchParams.set("page", "1");
 
-// Handle reset button
-resetButton.addEventListener('click', () => {
+    window.location.href = url.toString();
+  });
+
+  // Handle reset button
+  resetButton.addEventListener("click", () => {
     const url = new URL(window.location.href);
-    url.searchParams.delete('search');
-    url.searchParams.set('page', '1');
+    url.searchParams.delete("search");
+    url.searchParams.set("page", "1");
     window.location.href = url.toString();
-});
+  });
 
-// Update pagination links to maintain search parameter
-document.querySelectorAll('a[href*="?page="]').forEach(link => {
+  // Update pagination links to maintain search parameter
+  document.querySelectorAll('a[href*="?page="]').forEach((link) => {
     const url = new URL(link.href);
-    const searchValue = new URLSearchParams(window.location.search).get('search');
+    const searchValue = new URLSearchParams(window.location.search).get(
+      "search"
+    );
     if (searchValue) {
-        url.searchParams.set('search', searchValue);
-        link.href = url.toString();
+      url.searchParams.set("search", searchValue);
+      link.href = url.toString();
     }
-});
+  });
+  function changeItemsPerPage(value) {
+        // Ambil parameter URL saat ini
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Update parameter itemsPerPage
+        urlParams.set('itemsPerPage', value);
+        
+        // Reset page ke 1 ketika mengubah jumlah item per halaman
+        urlParams.set('page', 1);
+        
+        // Redirect ke URL baru dengan parameter yang diperbarui
+        window.location.href = window.location.pathname + '?' + urlParams.toString();
+    }
 </script>
 <%- include('footer')%>

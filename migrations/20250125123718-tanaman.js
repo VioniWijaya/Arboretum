@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Tanaman', {
+    await queryInterface.createTable("Tanaman", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -21,11 +21,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      famili : {
+      famili: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      kegunaan: {
+      deskripsi: {
         type: Sequelize.TEXT,
         allowNull: false,
       },
@@ -40,17 +40,17 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Tanaman');
+    await queryInterface.dropTable("Tanaman");
   },
 };
